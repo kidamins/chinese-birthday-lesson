@@ -1,464 +1,593 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บทที่ 20 祝你生日快乐 - Active Learning</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-red: #CE2029;
-            --dark-red: #8B0000;
-            --gold: #FFD700;
-            --light-gold: #FFF8DC;
-            --dark-text: #2C3E50;
-        }
+  <!-- คาถาแก้ภาษาเอเลี่ยน อ่านภาษาไทยและจีนได้ 100% -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 20: Chinese Birthday Celebration</title>
+  
+  <!-- ไอคอนสัญลักษณ์สำหรับปุ่มกด -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Kanit', 'Noto Serif SC', sans-serif;
-        }
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
 
-        body {
-            background: radial-gradient(circle, var(--primary-red) 0%, var(--dark-red) 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--dark-text);
-            padding: 20px;
-        }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* Container หลัก */
-        .slide-container {
-            background: white;
-            width: 100%;
-            max-width: 850px;
-            height: 550px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            border: 4px solid var(--gold);
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+  :root {
+    --red: #C0392B;
+    --red-light: #E74C3C;
+    --red-deep: #8B1A1A;
+    --gold: #C9A84C;
+    --gold-light: #F0D060;
+    --cream: #FAF6EE;
+    --ink: #1A1209;
+    --ink-mid: #3D2B1F;
+    --muted: #7A6050;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --color-border-secondary: #ddd;
+    --color-border-tertiary: #eee;
+    --color-text-primary: #333;
+    --color-text-secondary: #666;
+    --color-background-primary: #fff;
+    --color-background-secondary: #f9f9f9;
+  }
 
-        /* หน้า Slide */
-        .slide {
-            flex: 1;
-            display: none;
-            padding: 40px;
-            text-align: center;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+  body { background: #f5f5f5; font-family: 'DM Sans', sans-serif; padding: 20px; }
 
-        .slide.active {
-            display: flex;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+  .presentation {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+  .slide-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    margin-bottom: 20px;
+  }
 
-        /* สไตล์หน้าแรก */
-        .cover-slide {
-            background: linear-gradient(135deg, #A30000 0%, #5C0000 100%);
-            color: var(--gold);
-        }
-        .cover-slide h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-        }
-        .cover-slide h2 {
-            font-size: 1.8rem;
-            color: #fff;
-            margin-bottom: 20px;
-        }
+  .slide-dots {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
-        /* ส่วนหัวข้อภายใน */
-        .slide-title {
-            color: var(--primary-red);
-            font-size: 2rem;
-            margin-bottom: 25px;
-            border-bottom: 3px solid var(--gold);
-            padding-bottom: 5px;
-            width: 100%;
-        }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--color-border-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  .dot.active { background: #C0392B; transform: scale(1.3); }
+  .dot:hover { background: #C0392B; opacity: 0.6; }
 
-        /* ลิสต์คำศัพท์ */
-        .vocab-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1-fr);
-            gap: 15px;
-            width: 100%;
-            max-width: 600px;
-        }
+  .nav-btn {
+    background: none;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    display: flex; align-items: center; gap: 6px;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { background: var(--color-background-secondary); color: var(--color-text-primary); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
 
-        /* การ์ดคำศัพท์ Interactive */
-        .vocab-card {
-            background: var(--light-gold);
-            padding: 15px;
-            border-radius: 12px;
-            border: 2px solid var(--gold);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .vocab-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .vocab-card .chinese {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--dark-red);
-        }
-        .vocab-card .pinyin {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-            margin: 5px 0;
-        }
-        .vocab-card .thai {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--dark-text);
-            display: none; /* ซ่อนความหมายไว้ให้เด็กเดา */
-        }
-        .vocab-card.revealed .thai {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
+  .slide-counter {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    min-width: 48px;
+    text-align: center;
+  }
 
-        /* โครงสร้างประโยค */
-        .grammar-box {
-            background: #f9f9f9;
-            border-left: 8px solid var(--primary-red);
-            padding: 20px;
-            border-radius: 4px;
-            text-align: left;
-            width: 100%;
-            max-width: 650px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-        .grammar-box p {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
+  .slide { display: none; animation: fadeSlide 0.3s ease; }
+  .slide.active { display: block; }
 
-        /* หน้าเกม/ควิซ */
-        .quiz-container {
-            width: 100%;
-            max-width: 600px;
-        }
-        .quiz-question {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--dark-red);
-        }
-        .quiz-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        .option-btn {
-            background: white;
-            border: 2px solid #ccc;
-            padding: 15px;
-            font-size: 1.2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .option-btn:hover {
-            background: var(--light-gold);
-            border-color: var(--gold);
-        }
-        .option-btn.correct {
-            background: #2ecc71 !important;
-            color: white;
-            border-color: #27ae60;
-        }
-        .option-btn.wrong {
-            background: #e74c3c !important;
-            color: white;
-            border-color: #c0392b;
-        }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-        /* ปุ่มควบคุมสไลด์ด้านล่าง */
-        .control-panel {
-            background: #f1f1f1;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 2px solid #ddd;
-        }
-        .nav-btn {
-            background: var(--primary-red);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-size: 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-weight: bold;
-        }
-        .nav-btn:hover {
-            background: var(--dark-red);
-        }
-        .nav-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .progress-dots {
-            display: flex;
-            gap: 8px;
-        }
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: #ccc;
-            border-radius: 50%;
-            transition: background 0.3s;
-        }
-        .dot.active {
-            background: var(--primary-red);
-            transform: scale(1.2);
-        }
+  .slide-frame {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    border: 0.5px solid var(--color-border-tertiary);
+    position: relative;
+  }
 
-        /* รองรับมือถือ */
-        @media (max-width: 768px) {
-            .slide-container { height: auto; min-height: 500px; }
-            .vocab-grid, .quiz-options { grid-template-columns: 1fr; }
-            .cover-slide h1 { font-size: 2.3rem; }
-            .slide { padding: 20px; }
-        }
-    </style>
+  /* Slide 1 - Title */
+  .s1-bg {
+    background: linear-gradient(160deg, #8B1A1A 0%, #C0392B 45%, #8B1A1A 100%);
+    padding: 48px 40px 40px;
+    position: relative;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .s1-pattern {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 20%, rgba(201,168,76,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(201,168,76,0.1) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .s1-lantern {
+    font-size: 32px;
+    position: absolute;
+    top: 12px;
+    opacity: 0.8;
+  }
+  .s1-lantern.l { left: 24px; }
+  .s1-lantern.r { right: 24px; }
+
+  .s1-lesson {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(240,208,96,0.8);
+    margin-bottom: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+  .s1-chinese {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 38px;
+    color: #F0D060;
+    margin-bottom: 12px;
+    line-height: 1.2;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  .s1-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .s1-divider {
+    width: 60px; height: 1px;
+    background: rgba(201,168,76,0.5);
+    margin: 20px auto;
+  }
+  .s1-peach { font-size: 24px; margin-top: 24px; opacity: 0.7; }
+
+  /* Common vocab slide style */
+  .vocab-slide { padding: 28px 32px; background: var(--color-background-primary); }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .slide-num {
+    width: 28px; height: 28px;
+    background: #C0392B;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .slide-topic { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-secondary); }
+  .slide-topic-cn { font-family: 'Noto Serif SC', serif; font-size: 13px; color: #C0392B; margin-left: auto; }
+
+  .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+
+  .vocab-card {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 14px 16px;
+    border: 0.5px solid var(--color-border-tertiary);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .vocab-card:hover, .vocab-card.selected { border-color: #C0392B; background: var(--color-background-primary); }
+  .vocab-card.selected { box-shadow: 0 0 0 2px rgba(192,57,43,0.15); }
+
+  .vocab-cn { font-family: 'Noto Serif SC', serif; font-size: 24px; color: var(--color-text-primary); line-height: 1; margin-bottom: 4px; }
+  .vocab-pinyin { font-size: 11px; color: #C0392B; margin-bottom: 4px; font-style: italic; }
+  .vocab-pos { display: inline-block; font-size: 10px; background: rgba(192,57,43,0.1); color: #C0392B; border-radius: 4px; padding: 1px 6px; margin-bottom: 6px; }
+  .vocab-th { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 8px; }
+  
+  .vocab-example { display: none; font-size: 12px; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 8px; margin-top: 4px; line-height: 1.5; }
+  .vocab-card.selected .vocab-example, .full-vocab-card.selected .vocab-example { display: block; }
+  
+  .example-cn { font-family: 'Noto Serif SC', serif; color: var(--color-text-primary); font-size: 12px; margin-bottom: 2px; }
+  .example-py { color: var(--color-text-secondary); font-size: 11px; font-style: italic; margin-bottom: 2px; }
+  .example-th { color: var(--color-text-secondary); font-size: 11px; }
+
+  .slide-hint { font-size: 11px; color: var(--color-text-secondary); margin-top: 16px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 4px; }
+
+  .gold-box { background: rgba(201,168,76,0.08); border: 0.5px solid rgba(201,168,76,0.4); border-radius: var(--border-radius-md); padding: 12px 16px; margin-top: 12px; }
+  .gold-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #9A7A2A; margin-bottom: 6px; font-weight: 500; }
+
+  .grammar-block { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 16px 20px; border: 0.5px solid var(--color-border-tertiary); margin-bottom: 12px; }
+  .grammar-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 8px; }
+
+  .zodiac-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
+  .zodiac-item { text-align: center; padding: 10px 6px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); }
+  .zodiac-item.highlight { background: rgba(192,57,43,0.08); border-color: rgba(192,57,43,0.4); }
+  .zodiac-emoji { font-size: 20px; display: block; margin-bottom: 4px; }
+  .zodiac-cn { font-family: 'Noto Serif SC', serif; font-size: 14px; color: var(--color-text-primary); }
+  .zodiac-py { font-size: 10px; color: #C0392B; font-style: italic; }
+
+  .warning-box { background: rgba(192,57,43,0.06); border: 0.5px solid rgba(192,57,43,0.3); border-radius: var(--border-radius-md); padding: 12px 16px; margin-top: 12px; }
+  .warning-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: #C0392B; margin-bottom: 6px; font-weight: 500; }
+  .warning-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.6; }
+
+  .two-col-vocab { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .full-vocab-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px 14px; border: 0.5px solid var(--color-border-tertiary); cursor: pointer; transition: all 0.15s; }
+  .full-vocab-card:hover { border-color: #C0392B; background: var(--color-background-primary); }
+  </style>
 </head>
 <body>
 
-    <div class="slide-container">
-        
-        <div class="slide cover-slide active">
-            <h2>第二十课 LESSON 20</h2>
-            <h1>祝你生日快乐</h1>
-            <p style="font-size: 1.4rem; color: var(--gold);">Birthday Traditions & Date Expressions</p>
-            <p style="margin-top: 20px; font-size: 1.1rem; opacity: 0.8;">💡 คลิกปุ่ม ถัดไป เริ่มเรียนรู้แบบ Active Learning กันเลย!</p>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">生词 (คำศัพท์น่ารู้ - 1)</h2>
-            <p style="margin-bottom: 15px; color: #7f8c8d;">👉 ลองทายความหมาย แล้วคลิกที่การ์ดเพื่อเฉลย</p>
-            <div class="vocab-grid">
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">生日</div>
-                    <div class="pinyin">shēngrì</div>
-                    <div class="thai">วันเกิด</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">快乐</div>
-                    <div class="pinyin">kuàilè</div>
-                    <div class="thai">มีความสุข / สุขสันต์</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">月</div>
-                    <div class="pinyin">yuè</div>
-                    <div class="thai">เดือน</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">号</div>
-                    <div class="pinyin">hào</div>
-                    <div class="thai">วันที่ (ภาษาพูด)</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">生词 (คำศัพท์น่ารู้ - 2)</h2>
-            <p style="margin-bottom: 15px; color: #7f8c8d;">👉 ลองทายความหมาย แล้วคลิกที่การ์ดเพื่อเฉลย</p>
-            <div class="vocab-grid">
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">今天</div>
-                    <div class="pinyin">jīntiān</div>
-                    <div class="thai">วันนี้</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">明天</div>
-                    <div class="pinyin">míngtiān</div>
-                    <div class="thai">พรุ่งนี้</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">年</div>
-                    <div class="pinyin">nián</div>
-                    <div class="thai">ปี</div>
-                </div>
-                <div class="vocab-card" onclick="revealVocab(this)">
-                    <div class="chinese">日</div>
-                    <div class="pinyin">rì</div>
-                    <div class="thai">วันที่ (ภาษาเขียน/ทางการ)</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">语法：การบอกวันที่ในภาษาจีน</h2>
-            <div class="grammar-box">
-                <p style="font-weight: bold; color: var(--primary-red); text-align: center; margin-bottom: 15px; font-size: 1.5rem;">
-                    💡 กฎเหล็ก: ภาษาจีนเรียงจาก "ใหญ่ ➔ เล็ก"
-                </p>
-                <p>📌 <b>โครงสร้าง:</b> ....ปี (年) ➔ ....เดือน (月) ➔ ....วันที่ (号/日)</p>
-                <p>📢 <b>ตัวอย่าง:</b> วันที่ 17 พฤษภาคม</p>
-                <p style="background: var(--light-gold); padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; font-size: 1.5rem; color: var(--dark-red);">
-                    5月17号 <span style="font-size: 1.1rem; color: #555;">(Wǔ yuè shíqī hào)</span>
-                </p>
-            </div>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">句型：การถาม-ตอบวันเกิด</h2>
-            <div class="grammar-box" style="border-left-color: var(--gold);">
-                <p>❓ <b>ประโยคคำถาม:</b></p>
-                <p style="color: var(--dark-red); font-weight: bold; padding-left: 20px;">你的生日是几月几号？</p>
-                <p style="font-size: 1.1rem; color: #7f8c8d; padding-left: 20px; margin-bottom: 15px;">Nǐ de shēngrì shì jǐ yuè jǐ hào? (วันเกิดของเธอคือเดือนอะไรวันที่เท่าไหร่?)</p>
-                
-                <p>🎯 <b>ประโยคคำตอบ:</b></p>
-                <p style="color: #27ae60; font-weight: bold; padding-left: 20px;">我的生日เป็นตามด้วย [เดือน] 月 [วันที่] 号。</p>
-                <p style="font-size: 1.1rem; color: #7f8c8d; padding-left: 20px;">Wǒ de shēngrì shì... (วันเกิดของฉันคือ...)</p>
-            </div>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">Mini Game: ประลองปัญญา ✨</h2>
-            <div class="quiz-container">
-                <div class="quiz-question">คำว่า "วันเกิด" ในภาษาจีนพูดว่าอย่างไร?</div>
-                <div class="quiz-options">
-                    <button class="option-btn" onclick="checkAnswer(this, false)">快乐 (kuàilè)</button>
-                    <button class="option-btn" onclick="checkAnswer(this, true)">生日 (shēngrì)</button>
-                    <button class="option-btn" onclick="checkAnswer(this, false)">今天 (jīntiān)</button>
-                    <button class="option-btn" onclick="checkAnswer(this, false)">明天 (míngtiān)</button>
-                </div>
-                <div id="quiz-feedback" style="margin-top: 15px; font-size: 1.2rem; font-weight: bold;"></div>
-            </div>
-        </div>
-
-        <div class="slide">
-            <h2 class="slide-title">Mini Game: เรียงลำดับวันที่ 📅</h2>
-            <div class="quiz-container">
-                <div class="quiz-question">ถ้าจะบอกว่า "วันที่ 5 ธันวาคม" ข้อใดเรียงถูกต้อง?</div>
-                <div class="quiz-options">
-                    <button class="option-btn" onclick="checkAnswer2(this, true)">12月5号 (ธ.ค. -> วันที่ 5)</button>
-                    <button class="option-btn" onclick="checkAnswer2(this, false)">5号12月 (วันที่ 5 -> ธ.ค.)</button>
-                    <button class="option-btn" onclick="checkAnswer2(this, false)">5月12号 (พ.ค. -> วันที่ 12)</button>
-                    <button class="option-btn" onclick="checkAnswer2(this, false)">12号5月 (วันที่ 12 -> พ.ค.)</button>
-                </div>
-                <div id="quiz-feedback2" style="margin-top: 15px; font-size: 1.2rem; font-weight: bold;"></div>
-            </div>
-        </div>
-
-        <div class="control-panel">
-            <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled>ก่อนหน้า</button>
-            <div class="progress-dots" id="dots-container"></div>
-            <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">ถัดไป</button>
-        </div>
-
+<div class="presentation">
+  <div class="slide-nav">
+    <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> prev
+    </button>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:8px;">
+      <div class="slide-dots" id="dots"></div>
+      <span class="slide-counter" id="counter">1 / 7</span>
     </div>
+    <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">
+      next <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
 
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const dotsContainer = document.getElementById('dots-container');
+  <!-- SLIDE 1: Title -->
+  <div class="slide active slide-frame" data-slide="1">
+    <div class="s1-bg">
+      <div class="s1-pattern"></div>
+      <span class="s1-lantern l">🏮</span>
+      <span class="s1-lantern r">🏮</span>
+      <div class="s1-lesson">บทที่ 20 · Lesson 20</div>
+      <div class="s1-chinese">第二十课</div>
+      <div class="s1-title">Birthday Traditions & Date Expressions</div>
+      <div class="s1-divider"></div>
+      <div class="s1-chinese" style="font-size:28px;">祝你生日快乐</div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.6); margin-top:6px; font-style:italic;">Zhù nǐ shēngrì kuàilè</div>
+      <div class="s1-peach">🍑 🎂 🧧</div>
+    </div>
+  </div>
 
-        // สร้างจุดบอกสถานะสไลด์
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dotsContainer.appendChild(dot);
-        });
+  <!-- SLIDE 2: Time Words -->
+  <div class="slide slide-frame" data-slide="2">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">2</div>
+        <div>
+          <div class="slide-topic">vocabulary group 1</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Time Words — ปีและช่วงเวลา</div>
+        </div>
+        <div class="slide-topic-cn">年</div>
+      </div>
+      <div class="vocab-grid" id="vg2">
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">去年</div>
+          <div class="vocab-pinyin">qùnián</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">ปีที่แล้ว</div>
+          <div class="vocab-example">
+            <div class="example-cn">去年我很高兴。</div>
+            <div class="example-py">qùnián wǒ hěn gāoxìng.</div>
+            <div class="example-th">ปีที่แล้วฉันมีความสุขมาก</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">今年</div>
+          <div class="vocab-pinyin">jīnnián</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">ปีนี้</div>
+          <div class="vocab-example">
+            <div class="example-cn">今年是2026年。</div>
+            <div class="example-py">jīnnián转化 wǒmen...</div>
+            <div class="example-th">ปีนี้คือปี 2026</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">明年</div>
+          <div class="vocab-pinyin">míngnián</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">ปีหน้า</div>
+          <div class="vocab-example">
+            <div class="example-cn">明年你想去中国吗？</div>
+            <div class="example-py">míngnián nǐ xiǎng qù Zhōngguó ma?</div>
+            <div class="example-th">ปีหน้าคุณอยากไปจีนไหม?</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">后年</div>
+          <div class="vocab-pinyin">hòunián</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">ปีมะรืนนี้</div>
+          <div class="vocab-example">
+            <div class="example-cn">我后年毕业。</div>
+            <div class="example-py">wǒ hòunián bìyè.</div>
+            <div class="example-th">ฉันจะเรียนจบในอีกสองปีข้างหน้า</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-hint"><i class="ti ti-hand-click" aria-hidden="true" style="font-size:14px;"></i> tap a card to see an example sentence</div>
+    </div>
+  </div>
 
-        const dots = document.querySelectorAll('.dot');
+  <!-- SLIDE 3: Milestones -->
+  <div class="slide slide-frame" data-slide="3">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">3</div>
+        <div>
+          <div class="slide-topic">vocabulary group 2</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Milestones & Age</div>
+        </div>
+        <div class="slide-topic-cn">毕业·多大</div>
+      </div>
+      <div class="vocab-grid" id="vg3">
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">毕业</div>
+          <div class="vocab-pinyin">bìyè</div>
+          <div class="vocab-pos">动 verb</div>
+          <div class="vocab-th">สำเร็จการศึกษา</div>
+          <div class="vocab-example">
+            <div class="example-cn">他明年大学毕业。</div>
+            <div class="example-py">tā míngnián dàxué bìyè.</div>
+            <div class="example-th">ปีหน้าเขาเรียนจบมหาวิทยาลัย</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">多大</div>
+          <div class="vocab-pinyin">duō dà</div>
+          <div class="vocab-pos">副 adv</div>
+          <div class="vocab-th">อายุเท่าไหร่</div>
+          <div class="vocab-example">
+            <div class="example-cn">你妹妹今年多大？</div>
+            <div class="example-py">nǐ mèimei jīnnián duō dà?</div>
+            <div class="example-th">น้องสาวคุณอายุเท่าไหร่ปีนี้?</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">岁</div>
+          <div class="vocab-pinyin">suì</div>
+          <div class="vocab-pos">量 classifier</div>
+          <div class="vocab-th">ปี / ขวบ (บอกอายุ)</div>
+          <div class="vocab-example">
+            <div class="example-cn">我今年十三岁。</div>
+            <div class="example-py">wǒ jīnnián shísān suì.</div>
+            <div class="example-th">ปีนี้ฉันอายุ 13 ปี</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">改好</div>
+          <div class="vocab-pinyin">zhènghǎo</div>
+          <div class="vocab-pos">副/形</div>
+          <div class="vocab-th">พอดี / ประจวบเหมาะ</div>
+          <div class="vocab-example">
+            <div class="example-cn">今天正好是我的生日。</div>
+            <div class="example-py">jīntiān zhènghǎo...</div>
+            <div class="example-th">วันนี้ประจวบเหมาะเป็นวันเกิดฉันพอดี</div>
+          </div>
+        </div>
+      </div>
+      <div class="gold-box" style="margin-top:14px;">
+        <div class="gold-label">💡 note — 毕业 + level</div>
+        <div style="font-size:13px; color:var(--color-text-primary);">
+          Put the education level before 毕业: <span style="font-family:'Noto Serif SC',serif;">小学毕业 · 高中毕业 · 大学毕业</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        function changeSlide(direction) {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-            
-            currentSlide += direction;
+  <!-- SLIDE 4: Zodiac -->
+  <div class="slide slide-frame" data-slide="4">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">4</div>
+        <div>
+          <div class="slide-topic">vocabulary group 3</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Chinese Zodiac — ปีนักษัตร</div>
+        </div>
+        <div class="slide-topic-cn">属</div>
+      </div>
+      <div class="grammar-block" style="margin-bottom:14px;">
+        <div class="grammar-label">key verb</div>
+        <div style="display:flex; align-items:baseline; gap:10px;">
+          <span style="font-family:'Noto Serif SC',serif; font-size:28px; color:#C0392B;">属</span>
+          <span style="font-size:14px; color:var(--color-text-secondary);">shǔ — เกิดปีนักษัตร...</span>
+        </div>
+        <div style="margin-top:8px; font-size:13px; color:var(--color-text-secondary);">
+          structure: <span style="font-family:'Noto Serif SC',serif; color:var(--color-text-primary);">你属什么？→ 我属狗。</span>
+        </div>
+      </div>
+      <div class="zodiac-grid">
+        <div class="zodiac-item"><span class="zodiac-emoji">🐭</span><div class="zodiac-cn">鼠</div><div class="zodiac-py">shǔ</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐂</span><div class="zodiac-cn">牛</div><div class="zodiac-py">niú</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐯</span><div class="zodiac-cn">虎</div><div class="zodiac-py">hǔ</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐰</span><div class="zodiac-cn">兔</div><div class="zodiac-py">tù</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐉</span><div class="zodiac-cn">龙</div><div class="zodiac-py">lóng</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐍</span><div class="zodiac-cn">蛇</div><div class="zodiac-py">shé</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐴</span><div class="zodiac-cn">马</div><div class="zodiac-py">mǎ</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐑</span><div class="zodiac-cn">羊</div><div class="zodiac-py">yáng</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐵</span><div class="zodiac-cn">猴</div><div class="zodiac-py">hóu</div></div>
+        <div class="zodiac-item"><span class="zodiac-emoji">🐓</span><div class="zodiac-cn">鸡</div><div class="zodiac-py">jī</div></div>
+        <div class="zodiac-item highlight"><span class="zodiac-emoji">🐕</span><div class="zodiac-cn">狗</div><div class="zodiac-py">gǒu</div></div>
+        <div class="zodiac-item highlight"><span class="zodiac-emoji">🐷</span><div class="zodiac-cn">猪</div><div class="zodiac-py">zhū</div></div>
+      </div>
+    </div>
+  </div>
 
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
+  <!-- SLIDE 5: Dates -->
+  <div class="slide slide-frame" data-slide="5">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">5</div>
+        <div>
+          <div class="slide-topic">vocabulary group 4</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Birthday & Dates — วันเกิดและวันที่</div>
+        </div>
+        <div class="slide-topic-cn">生日</div>
+      </div>
+      <div class="vocab-grid" id="vg5">
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">生日</div>
+          <div class="vocab-pinyin">shēngrì</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">วันเกิด</div>
+          <div class="vocab-example">
+            <div class="example-cn">我的生日十月十八号。</div>
+            <div class="example-py">wǒ de...</div>
+            <div class="example-th">วันเกิดของฉันคือวันที่ 18 ตุลาคม</div>
+          </div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">月</div>
+          <div class="vocab-pinyin">yuè</div>
+          <div class="vocab-pos">名 noun</div>
+          <div class="vocab-th">เดือน</div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">号</div>
+          <div class="vocab-pinyin">hào</div>
+          <div class="vocab-pos">量 classifier</div>
+          <div class="vocab-th">วันที่ (ภาษาพูด)</div>
+        </div>
+        <div class="vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">日</div>
+          <div class="vocab-pinyin">rì</div>
+          <div class="vocab-pos">量 classifier</div>
+          <div class="vocab-th">วันที่ (ภาษาเขียน)</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            // ควบคุมการเปิดปิดปุ่ม
-            prevBtn.disabled = currentSlide === 0;
-            if (currentSlide === slides.length - 1) {
-                nextBtn.innerText = 'จบการเรียนรู้';
-                nextBtn.disabled = true;
-            } else {
-                nextBtn.innerText = 'ถัดไป';
-                nextBtn.disabled = false;
-            }
-        }
+  <!-- SLIDE 6: Party Planning -->
+  <div class="slide slide-frame" data-slide="6">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">6</div>
+        <div>
+          <div class="slide-topic">vocabulary group 5</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Party Planning — เตรียมงานฉลอง</div>
+        </div>
+        <div class="slide-topic-cn">打算·准备</div>
+      </div>
+      <div class="two-col-vocab" id="vg6">
+        <div class="full-vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">打算</div>
+          <div class="vocab-pinyin">dǎsuàn</div>
+          <div class="vocab-th">วางแผน</div>
+        </div>
+        <div class="full-vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">过</div>
+          <div class="vocab-pinyin">guò</div>
+          <div class="vocab-th">ฉลอง</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // ฟังก์ชันคลิกเปิดการ์ดคำศัพท์
-        function revealVocab(card) {
-            card.classList.toggle('revealed');
-        }
+  <!-- SLIDE 7: Time & Wishes -->
+  <div class="slide slide-frame" data-slide="7">
+    <div class="vocab-slide">
+      <div class="slide-header">
+        <div class="slide-num">7</div>
+        <div>
+          <div class="slide-topic">vocabulary group 6</div>
+          <div style="font-size:15px; font-weight:500; color:var(--color-text-primary);">Time & Wishes — เวลาและคำอวยพร</div>
+        </div>
+        <div class="slide-topic-cn">祝·快乐</div>
+      </div>
+      <div class="two-col-vocab" id="vg7">
+        <div class="full-vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">时间</div>
+          <div class="vocab-pinyin">shíjiān</div>
+          <div class="vocab-th">เวลา</div>
+        </div>
+        <div class="full-vocab-card" onclick="toggleCard(this)">
+          <div class="vocab-cn">祝</div>
+          <div class="vocab-pinyin">zhù</div>
+          <div class="vocab-th">อวยพร</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // ฟังก์ชันตรวจคำถามควิซ 1
-        function checkAnswer(btn, isCorrect) {
-            const options = btn.parentElement.querySelectorAll('.option-btn');
-            options.forEach(opt => opt.disabled = true); // ล็อกไม่ให้กดซ้ำ
-            
-            const feedback = document.getElementById('quiz-feedback');
-            if (isCorrect) {
-                btn.classList.add('correct');
-                feedback.innerHTML = "🎉 เก่งมากค่ะ! ถูกต้องแล้ว 🥳";
-                feedback.style.color = "#2ecc71";
-                nextBtn.disabled = false; // ปลดล็อกปุ่มถัดไป
-            } else {
-                btn.classList.add('wrong');
-                feedback.innerHTML = "❌ ยังไม่ถูกน้า ลองดูใหม่อีกทีค่ะ!";
-                feedback.style.color = "#e74c3c";
-                // ปลดล็อกให้กดใหม่ได้หลังจากเลือกผิด
-                setTimeout(() => {
-                    options.forEach(opt => opt.disabled = false);
-                    btn.classList.remove('wrong');
-                }, 1000);
-            }
-        }
+</div>
 
-        // ฟังก์ชันตรวจคำถามควิซ 2
-        function checkAnswer2(btn, isCorrect) {
-            const options = btn.parentElement.querySelectorAll('.option-btn');
-            options.forEach(opt => opt.disabled = true);
-            
-            const feedback = document.getElementById('quiz-feedback2');
-            if (isCorrect) {
-                btn.classList.add('correct');
-                feedback.innerHTML = "🎯 สุดยอดเลย! จำหลักการ ใหญ่ -> เล็ก ได้แม่นยำมากค่ะ 👏";
-                feedback.style.color = "#2ecc71";
-                nextBtn.disabled = false;
-            } else {
-                btn.classList.add('wrong');
-                feedback.innerHTML = "❌ อย่าลืมกฎเหล็กนะ เอาเดือนขึ้นก่อนวันที่เสมอน้า!";
-                feedback.style.color = "#e74c3c";
-                setTimeout(() => {
-                    options.forEach(opt => opt.disabled = false);
-                    btn.classList.remove('wrong');
-                }, 1200);
-            }
-        }
-    </script>
+<!-- ระบบควบคุมการเลื่อนสไลด์และการกดการ์ดคำศัพท์ด้วย JavaScript -->
+<script>
+let currentSlide = 1;
+const totalSlides = 7;
+
+function initPresentation() {
+  const dotsContainer = document.getElementById('dots');
+  dotsContainer.innerHTML = '';
+  for (let i = 1; i <= totalSlides; i++) {
+    const dot = document.createElement('button');
+    dot.className = `dot ${i === 1 ? 'active' : ''}`;
+    dot.onclick = () => showSlide(i);
+    dotsContainer.appendChild(dot);
+  }
+  updateNav();
+}
+
+function showSlide(index) {
+  if (index < 1 || index > totalSlides) return;
+  
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+  
+  const targetSlide = document.querySelector(`.slide[data-slide="${index}"]`);
+  if (targetSlide) targetSlide.classList.add('active');
+  
+  const dots = document.querySelectorAll('.dot');
+  if (dots[index - 1]) dots[index - 1].classList.add('active');
+  
+  currentSlide = index;
+  updateNav();
+}
+
+function changeSlide(direction) {
+  showSlide(currentSlide + direction);
+}
+
+function updateNav() {
+  document.getElementById('counter').innerText = `${currentSlide} / ${totalSlides}`;
+  document.getElementById('prev-btn').disabled = currentSlide === 1;
+  document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+}
+
+function toggleCard(card) {
+  card.classList.toggle('selected');
+}
+
+// เริ่มต้นระบบเมื่อเปิดหน้าเว็บ
+window.onload = initPresentation;
+</script>
+
 </body>
 </html>
