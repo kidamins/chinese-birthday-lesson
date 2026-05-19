@@ -1,669 +1,788 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>บทที่ 20 : 祝你生日快乐 (บทเรียน & แบบฝึกหัด)</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Sarabun:wght@300;400;600;700&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>第二十课 · Happy Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red: #c0392b;
-    --gold: #e8b84b;
-    --dark: #1a1008;
-    --cream: #fdf6e3;
-    --paper: #faf3dc;
-    --ink: #2c1810;
-    --accent: #8b1a1a;
-    --light-red: #fde8e8;
-    --green: #2e7d32;
-    --light-green: #e8f5e9;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --red:#C0392B;--red-dark:#8B1A1A;--gold:#C9A84C;--gold-light:#F0D060;
+  --bg:#FAFAF8;--surface:#FFFFFF;--surface2:#F4F1EA;
+  --text:#1A1209;--text2:#5A4A3A;--text3:#9A8A7A;
+  --border:rgba(90,74,58,0.12);--border2:rgba(90,74,58,0.22);
+  --green:#2D7A4F;--green-bg:#EAF5EE;
+  --red-bg:#FEF0EE;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1A1209;--surface:#251A0F;--surface2:#2E2015;
+    --text:#FAF6EE;--text2:#C8B89A;--text3:#7A6A55;
+    --border:rgba(200,184,154,0.12);--border2:rgba(200,184,154,0.22);
+    --green-bg:rgba(45,122,79,0.2);--red-bg:rgba(192,57,43,0.15);
   }
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+button{cursor:pointer;font-family:'DM Sans',sans-serif}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── APP SHELL ── */
+#app{min-height:100vh;display:flex;flex-direction:column;max-width:600px;margin:0 auto;padding:0}
 
-  body {
-    background: var(--cream);
-    font-family: 'Sarabun', sans-serif;
-    color: var(--ink);
-    min-height: 100vh;
-    background-image: radial-gradient(ellipse at top, #fcf3d1, var(--cream));
-    padding-bottom: 60px;
-  }
+/* ── TOP BAR ── */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);
+  border-bottom:0.5px solid var(--border);
+  padding:10px 16px 8px;
+  display:flex;align-items:center;gap:10px;
+}
+.topbar-title{font-size:13px;font-weight:500;color:var(--text2);flex:1}
+.topbar-cn{font-family:'Noto Serif SC',serif;font-size:15px;color:var(--red)}
+.mode-tabs{display:flex;gap:4px;background:var(--surface2);border-radius:10px;padding:3px}
+.mode-tab{
+  padding:5px 12px;border-radius:8px;border:none;
+  font-size:12px;font-weight:500;color:var(--text3);background:none;
+  transition:all .15s;white-space:nowrap;
+}
+.mode-tab.active{background:var(--surface);color:var(--red);box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 
-  /* ส่วนหัวแถบเลือกหน้าเรียน/แบบฝึกหัด */
-  .top-nav {
-    background: var(--dark);
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px;
-    sticky: top;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  }
+/* ── SCREENS ── */
+.screen{display:none;flex:1;flex-direction:column;padding-bottom:80px}
+.screen.active{display:flex}
 
-  .tab-btn {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    border: 1px solid var(--gold);
-    padding: 10px 24px;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
+/* ── SLIDE NAV ── */
+.slide-nav-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 16px;border-bottom:0.5px solid var(--border);
+  background:var(--surface);
+  position:sticky;top:57px;z-index:90;
+}
+.nav-btn{
+  background:none;border:0.5px solid var(--border2);border-radius:8px;
+  padding:6px 14px;font-size:12px;font-weight:500;color:var(--text2);
+  display:flex;align-items:center;gap:5px;transition:all .15s;
+}
+.nav-btn:active{transform:scale(0.96);background:var(--surface2)}
+.nav-btn:disabled{opacity:0.3;cursor:default}
+.slide-dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:200px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border2);border:none;padding:0;transition:all .2s}
+.dot.active{background:var(--red);transform:scale(1.4)}
+.slide-count{font-size:11px;color:var(--text3);white-space:nowrap}
 
-  .tab-btn.active {
-    background: var(--gold);
-    color: var(--dark);
-    box-shadow: 0 0 10px var(--brightGold);
-  }
+/* ── SLIDE CONTENT ── */
+.slide-wrap{display:none;animation:fadeUp .25s ease;flex:1;flex-direction:column}
+.slide-wrap.active{display:flex}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  .main-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 15px;
-  }
+/* TITLE SLIDE */
+.title-slide{
+  background:linear-gradient(160deg,var(--red-dark) 0%,var(--red) 55%,var(--red-dark) 100%);
+  min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:48px 24px 40px;position:relative;overflow:hidden;flex:1;
+}
+.title-slide::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 20%,rgba(201,168,76,.18) 0%,transparent 55%),
+    radial-gradient(circle at 80% 80%,rgba(201,168,76,.12) 0%,transparent 45%);
+}
+.title-lanterns{font-size:28px;position:absolute;top:14px;width:100%;display:flex;justify-content:space-between;padding:0 20px;opacity:.85}
+.t-lesson{font-size:11px;letter-spacing:3px;color:rgba(240,208,96,.75);margin-bottom:12px;position:relative}
+.t-cn{font-family:'Noto Serif SC',serif;font-size:36px;color:var(--gold-light);margin-bottom:8px;position:relative;text-shadow:0 2px 12px rgba(0,0,0,.3);line-height:1.2}
+.t-title{font-family:'DM Serif Display',serif;font-size:17px;color:rgba(255,255,255,.85);font-style:italic;position:relative}
+.t-divider{width:50px;height:1px;background:rgba(201,168,76,.4);margin:18px auto;position:relative}
+.t-sub{font-size:12px;color:rgba(255,255,255,.55);position:relative;letter-spacing:1px}
+.t-emoji">🍑 🎂 🧧</div>
+        </div>
+      </div>
 
-  .page-content {
-    display: none;
-    animation: fadeIn 0.5s ease;
-  }
+      <div class="slide-wrap" data-s="2">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">2</div>
+            <div><div class="slide-topic">vocab group 1</div><div class="slide-main-title">Time Words — ปีและช่วงเวลา</div></div>
+            <div class="slide-cn-badge">年</div>
+          </div>
+          <div class="vocab-grid">
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">去年</div><div class="vc-py">qùnián</div><div class="vc-pos">名 noun</div><div class="vc-th">ปีที่แล้ว</div>
+              <div class="vc-example"><div class="ex-cn">去年我很高兴。</div><div class="ex-py">qùnián wǒ hěn gāoxìng.</div><div class="ex-th">ปีที่แล้วฉันมีความสุขมาก</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">今年</div><div class="vc-py">jīnnián</div><div class="vc-pos">名 noun</div><div class="vc-th">ปีนี้</div>
+              <div class="vc-example"><div class="ex-cn">今年是2026年。</div><div class="ex-py">jīnnián ...</div><div class="ex-th">ปีนี้คือปี 2026</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">明年</div><div class="vc-py">míngnián</div><div class="vc-pos">名 noun</div><div class="vc-th">ปีหน้า</div>
+              <div class="vc-example"><div class="ex-cn">明年你想去中国吗？</div><div class="ex-py">míngnián nǐ xiǎng qù Zhōngguó ma?</div><div class="ex-th">ปีหน้าคุณอยากไปจีนไหม?</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">后年</div><div class="vc-py">hòunián</div><div class="vc-pos">名 noun</div><div class="vc-th">ปีมะรืนนี้</div>
+              <div class="vc-example"><div class="ex-cn">我后年毕业。</div><div class="ex-py">wǒ hòunián bìyè.</div><div class="ex-th">ฉันจะเรียนจบในอีกสองปี</div></div>
+            </div>
+          </div>
+          <div class="slide-hint">👆 tap a card to reveal example</div>
+        </div>
+      </div>
 
-  .page-content.active {
-    display: block;
-  }
+      <div class="slide-wrap" data-s="3">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">3</div>
+            <div><div class="slide-topic">vocab group 2</div><div class="slide-main-title">Milestones &amp; Age</div></div>
+            <div class="slide-cn-badge">毕业</div>
+          </div>
+          <div class="vocab-grid">
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">毕业</div><div class="vc-py">bìyè</div><div class="vc-pos">动 verb</div><div class="vc-th">สำเร็จการศึกษา</div>
+              <div class="vc-example"><div class="ex-cn">他明年大学毕业。</div><div class="ex-py">tā míngnián dàxué bìyè.</div><div class="ex-th">เขาจะเรียนจบปีหน้า</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">多大</div><div class="vc-py">duō dà</div><div class="vc-pos">副 adv</div><div class="vc-th">อายุเท่าไหร่</div>
+              <div class="vc-example"><div class="ex-cn">你妹妹今年多大？</div><div class="ex-py">nǐ mèimei jīnnián duō dà?</div><div class="ex-th">น้องสาวคุณอายุเท่าไหร่ปีนี้?</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">岁</div><div class="vc-py">suì</div><div class="vc-pos">量 classifier</div><div class="vc-th">ปี/ขวบ (อายุ)</div>
+              <div class="vc-example"><div class="ex-cn">我今年十三岁。</div><div class="ex-py">wǒ jīnnián shísān suì.</div><div class="ex-th">ปีนี้ฉันอายุ 13 ปี</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">正好</div><div class="vc-py">zhènghǎo</div><div class="vc-pos">副/形</div><div class="vc-th">พอดี/ประจวบเหมาะ</div>
+              <div class="vc-example"><div class="ex-cn">今天正好是我的生日。</div><div class="ex-py">jīntiān zhènghǎo shì wǒ de shēngrì.</div><div class="ex-th">วันนี้ประจวบเหมาะเป็นวันเกิดฉัน</div></div>
+            </div>
+          </div>
+          <div class="gold-box" style="margin-top:12px">
+            <div class="gold-label">💡 note</div>
+            <div style="font-size:12px;color:var(--text)">Level + 毕业: <span style="font-family:'Noto Serif SC',serif">小学 · 高中 · 大学毕业</span></div>
+          </div>
+          <div class="slide-hint" style="margin-top:8px">👆 tap a card to reveal example</div>
+        </div>
+      </div>
 
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+      <div class="slide-wrap" data-s="4">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">4</div>
+            <div><div class="slide-topic">vocab group 3</div><div class="slide-main-title">Chinese Zodiac — ปีนักษัตร</div></div>
+            <div class="slide-cn-badge">属</div>
+          </div>
+          <div class="grammar-block" style="margin-bottom:12px">
+            <div class="g-label">key verb</div>
+            <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
+              <span style="font-family:'Noto Serif SC',serif;font-size:26px;color:var(--red)">属</span>
+              <span style="font-size:13px;color:var(--text2)">shǔ — เกิดปีนักษัตร</span>
+            </div>
+            <div style="font-size:12px;color:var(--text2)">Q: <span style="font-family:'Noto Serif SC',serif;color:var(--text)">你属什么？</span> → A: <span style="font-family:'Noto Serif SC',serif;color:var(--text)">我属狗。</span></div>
+          </div>
+          <div class="zodiac-grid">
+            <div class="zi"><span class="zi-em">🐭</span><div class="zi-cn">鼠</div><div class="zi-py">shǔ</div></div>
+            <div class="zi"><span class="zi-em">🐂</span><div class="zi-cn">牛</div><div class="zi-py">niú</div></div>
+            <div class="zi"><span class="zi-em">🐯</span><div class="zi-cn">虎</div><div class="zi-py">hǔ</div></div>
+            <div class="zi"><span class="zi-em">🐰</span><div class="zi-cn">兔</div><div class="zi-py">tù</div></div>
+            <div class="zi"><span class="zi-em">🐉</span><div class="zi-cn">龙</div><div class="zi-py">lóng</div></div>
+            <div class="zi"><span class="zi-em">🐍</span><div class="zi-cn">蛇</div><div class="zi-py">shé</div></div>
+            <div class="zi"><span class="zi-em">🐴</span><div class="zi-cn">马</div><div class="zi-py">mǎ</div></div>
+            <div class="zi"><span class="zi-em">🐑</span><div class="zi-cn">羊</div><div class="zi-py">yáng</div></div>
+            <div class="zi"><span class="zi-em">🐵</span><div class="zi-cn">猴</div><div class="zi-py">hóu</div></div>
+            <div class="zi"><span class="zi-em">🐓</span><div class="zi-cn">鸡</div><div class="zi-py">jī</div></div>
+            <div class="zi hi"><span class="zi-em">🐕</span><div class="zi-cn">狗</div><div class="zi-py">gǒu</div></div>
+            <div class="zi hi"><span class="zi-em">🐷</span><div class="zi-cn">猪</div><div class="zi-py">zhū</div></div>
+          </div>
+          <div style="font-size:10px;color:var(--red);text-align:center;padding:6px 0">🔴 highlighted = lesson vocab</div>
+        </div>
+      </div>
 
-  /* หัวข้อโบราณจีน */
-  .header-banner {
-    background: var(--dark);
-    color: var(--gold);
-    text-align: center;
-    padding: 40px 20px;
-    border-radius: 15px;
-    border: 3px double var(--gold);
-    margin-bottom: 30px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  }
+      <div class="slide-wrap" data-s="5">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">5</div>
+            <div><div class="slide-topic">vocab group 4</div><div class="slide-main-title">Birthday &amp; Dates — วันเกิดและวันที่</div></div>
+            <div class="slide-cn-badge">生日</div>
+          </div>
+          <div class="vocab-grid">
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">生日</div><div class="vc-py">shēngrì</div><div class="vc-pos">名 noun</div><div class="vc-th">วันเกิด</div>
+              <div class="vc-example"><div class="ex-cn">我的生日十月十八号。</div><div class="ex-py">wǒ de shēngrì shí yuè shíbā hào.</div><div class="ex-th">วันเกิดฉันคือวันที่ 18 ตุลาคม</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">月</div><div class="vc-py">yuè</div><div class="vc-pos">名 noun</div><div class="vc-th">เดือน</div>
+              <div class="vc-example"><div class="ex-cn">Present五月。</div><div class="ex-py">xiànzài ...</div><div class="ex-th">ตอนนี้คือเดือนพฤษภาคม</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">号</div><div class="vc-py">hào</div><div class="vc-pos">量</div><div class="vc-th">วันที่ (พูด)</div>
+              <div class="vc-example"><div class="ex-cn">今天十七号。</div><div class="ex-py">jīntiān shíqī hào.</div><div class="ex-th">วันนี้วันที่ 17</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">日</div><div class="vc-py">rì</div><div class="vc-pos">量</div><div class="vc-th">วันที่ (เขียน)</div>
+              <div class="vc-example"><div class="ex-cn">1919年5月4日</div><div class="ex-py">yī jiǔ yī jiǔ nián wǔ yuè sì rì</div><div class="ex-th">ทางการ/หนังสือ</div></div>
+            </div>
+          </div>
+          <div class="warn-box">
+            <div class="warn-label">⚠️ 号 vs 日</div>
+            <div style="font-size:12px;color:var(--text)"><span style="font-family:'Noto Serif SC',serif">号</span> = spoken everyday · <span style="font-family:'Noto Serif SC',serif">日</span> = formal written</div>
+          </div>
+          <div class="slide-hint" style="margin-top:8px">👆 tap a card to reveal example</div>
+        </div>
+      </div>
 
-  .header-banner h1 {
-    font-family: 'Noto Serif TC', serif;
-    font-size: 42px;
-    margin-bottom: 10px;
-    font-weight: 900;
-  }
+      <div class="slide-wrap" data-s="6">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">6</div>
+            <div><div class="slide-topic">vocab group 5</div><div class="slide-main-title">Party Planning — เตรียมงานฉลอง</div></div>
+            <div class="slide-cn-badge">打算</div>
+          </div>
+          <div class="vocab-grid">
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">打算</div><div class="vc-py">dǎsuàn</div><div class="vc-pos">动/名</div><div class="vc-th">วางแผน/แผนการ</div>
+              <div class="vc-example"><div class="ex-cn">周末你有什么打算？</div><div class="ex-py">zhōumò nǐ yǒu shénme dǎsuàn?</div><div class="ex-th">สุดสัปดาห์คุณมีแผนอะไรไหม?</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">过</div><div class="vc-py">guò</div><div class="vc-pos">动 verb</div><div class="vc-th">ฉลอง/จัดงาน</div>
+              <div class="vc-example"><div class="ex-cn">你打算怎么过生日？</div><div class="ex-py">nǐ dǎsuàn zěnme guò shēngrì?</div><div class="ex-th">คุณวางแผนจะฉลองวันเกิดอย่างไร?</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">准备</div><div class="vc-py">zhǔnbèi</div><div class="vc-pos">动 verb</div><div class="vc-th">เตรียมตัว</div>
+              <div class="vc-example"><div class="ex-cn">我们准备举行晚会。</div><div class="ex-py">wǒmen zhǔnbèi jǔxíng wǎnhuì.</div><div class="ex-th">พวกเราเตรียมจัดงานเลี้ยงกัน</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">举行</div><div class="vc-py">jǔxíng</div><div class="vc-pos">动 verb</div><div class="vc-th">จัดงาน/พิธี</div>
+              <div class="vc-example"><div class="ex-cn">学校明天举行运动会。</div><div class="ex-py">xuéxiào míngtiān jǔxíng yùndònghuì.</div><div class="ex-th">โรงเรียนจะจัดงานกีฬาสีพรุ่งนี้</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">晚会</div><div class="vc-py">wǎnhuì</div><div class="vc-pos">名 noun</div><div class="vc-th">งานปาร์ตี้ตอนเย็น</div>
+              <div class="vc-example"><div class="ex-cn">祝你晚会快乐！</div><div class="ex-py">zhù nǐ wǎnhuì kuàilè!</div><div class="ex-th">ขอให้สนุกกับงานปาร์ตี้!</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">参加</div><div class="vc-py">cānjiā</div><div class="vc-pos">动 verb</div><div class="vc-th">เข้าร่วม</div>
+              <div class="vc-example"><div class="ex-cn">你来参加我的生日晚会吗？</div><div class="ex-py">nǐ lái cānjiā wǒ de shēngrì wǎnhuì ma?</div><div class="ex-th">คุณจะมาร่วมงานวันเกิดไหม?</div></div>
+            </div>
+          </div>
+          <div class="slide-hint" style="margin-top:8px">👆 tap a card to reveal example</div>
+        </div>
+      </div>
 
-  .header-banner p {
-    font-size: 18px;
-    opacity: 0.9;
-  }
+      <div class="slide-wrap" data-s="7">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">7</div>
+            <div><div class="slide-topic">vocab group 6</div><div class="slide-main-title">Time &amp; Wishes — เวลาและคำอวยพร</div></div>
+            <div class="slide-cn-badge">祝</div>
+          </div>
+          <div class="vocab-grid">
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">时间</div><div class="vc-py">shíjiān</div><div class="vc-pos">名 noun</div><div class="vc-th">เวลา</div>
+              <div class="vc-example"><div class="ex-cn">我今天没有时间。</div><div class="ex-py">wǒ jīntiān méiyǒu shíjiān.</div><div class="ex-th">วันนี้ฉันไม่มีเวลาเลย</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">点(钟)</div><div class="vc-py">diǎn (zhōng)</div><div class="vc-pos">量 classifier</div><div class="vc-th">โมง/นาฬิกา</div>
+              <div class="vc-example"><div class="ex-cn">现在九点钟。</div><div class="ex-py">xiànzài jiǔ diǎn zhōng.</div><div class="ex-th">ตอนนี้เก้าโมงตรง</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">一定</div><div class="vc-py">yídìng</div><div class="vc-pos">副 adv</div><div class="vc-th">แน่นอน/ต้อง</div>
+              <div class="vc-example"><div class="ex-cn">我明天一定来参加。</div><div class="ex-py">wǒ míngtiān yídìng lái cānjiā.</div><div class="ex-th">พรุ่งนี้ฉันต้องมาแน่นอน</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">就</div><div class="vc-py">jiù</div><div class="vc-pos">副 adv</div><div class="vc-th">ก็ (เน้นย้ำ)</div>
+              <div class="vc-example"><div class="ex-cn">就在我的房间。</div><div class="ex-py">jiù zài wǒ de fángjiān.</div><div class="ex-th">ก็อยู่ในห้องของฉันนี่ไง!</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">祝</div><div class="vc-py">zhù</div><div class="vc-pos">动 verb</div><div class="vc-th">อวยพร/ขอให้</div>
+              <div class="vc-example"><div class="ex-cn">祝你身体健康。</div><div class="ex-py">zhù nǐ shēntǐ jiànkāng.</div><div class="ex-th">ขอให้มีสุขภาพแข็งแรง</div></div>
+            </div>
+            <div class="vocab-card" onclick="toggleVCard(this)">
+              <div class="vc-cn">快乐</div><div class="vc-py">kuàilè</div><div class="vc-pos">形 adj</div><div class="vc-th">มีความสุข</div>
+              <div class="vc-example"><div class="ex-cn">祝大家天天快乐。</div><div class="ex-py">zhù dàjiā tiāntiān kuàilè.</div><div class="ex-th">ขอให้ทุกคนมีความสุขทุกวัน</div></div>
+            </div>
+          </div>
+          <div class="slide-hint" style="margin-top:8px">👆 tap a card to reveal example</div>
+        </div>
+      </div>
 
-  /* สไตล์การ์ดเนื้อหา (บทเรียนเดิมของคุณครู) */
-  .lesson-card {
-    background: var(--paper);
-    border-left: 6px solid var(--red);
-    border-radius: 8px;
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-top: 1px solid rgba(232,184,75,0.3);
-    border-right: 1px solid rgba(232,184,75,0.3);
-    border-bottom: 1px solid rgba(232,184,75,0.3);
-  }
+      <div class="slide-wrap" data-s="8">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">8</div>
+            <div><div class="slide-topic">grammar 1</div><div class="slide-main-title">Expressing Dates — ลำดับวันเดือนปี</div></div>
+          </div>
+          <div class="grammar-block">
+            <div class="g-label">🔑 iron rule — จากใหญ่ไปเล็ก</div>
+            <div style="font-size:13px;color:var(--text2);margin-bottom:10px">Chinese orders time <strong style="font-weight:500;color:var(--text)">largest → smallest</strong></div>
+            <div class="date-order">
+              <div class="du"><div class="du-cn">年</div><div class="du-lbl">year</div></div>
+              <div class="date-arrow">→</div>
+              <div class="du"><div class="du-cn">月</div><div class="du-lbl">month</div></div>
+              <div class="date-arrow">→</div>
+              <div class="du"><div class="du-cn">日/号</div><div class="du-lbl">day</div></div>
+            </div>
+          </div>
+          <div class="grammar-block">
+            <div class="g-label">reading years — read each digit + 年</div>
+            <div class="g-ex">1949年 → yī jiǔ sì jiǔ nián</div>
+            <div class="g-ex" style="margin-top:6px">2026年 → èr líng èr liù nián</div>
+          </div>
+          <div class="two-col" style="margin-top:10px">
+            <div class="compare-col">
+              <div class="cc-title">日 rì — formal</div>
+              <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--text);margin-bottom:3px">1919年5月4日</div>
+              <div style="font-size:10px;color:var(--text3)">textbooks, documents</div>
+            </div>
+            <div class="compare-col">
+              <div class="cc-title">号 hào — spoken</div>
+              <div style="font-family:'Noto Serif SC',serif;font-size:14px;color:var(--text);margin-bottom:3px">1919年5月4号</div>
+              <div style="font-size:10px;color:var(--text3)">everyday conversation</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  .lesson-card h2 {
-    color: var(--accent);
-    margin-bottom: 15px;
-    font-size: 22px;
-    border-bottom: 2px dashed var(--gold);
-    padding-bottom: 5px;
-  }
+      <div class="slide-wrap" data-s="9">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">9</div>
+            <div><div class="slide-topic">grammar 2</div><div class="slide-main-title">Nominal Predicates — ภาคแสดงคำนาม</div></div>
+          </div>
+          <div class="grammar-block">
+            <div class="g-label">no 是 needed — time / date / age / price</div>
+            <div class="g-ex">现在八点半。</div><div class="g-py">xiànzài bā diǎn bàn.</div><div class="g-th">ตอนนี้แปดโมงครึ่ง</div>
+            <div class="g-ex">今天十月二十七号。</div><div class="g-py">jīntiān shí yuè èrshíqī hào.</div><div class="g-th">วันนี้วันที่ 27 ตุลาคม</div>
+            <div class="g-ex" style="margin-top:4px">他二十岁。</div><div class="g-py">tā èrshí suì.</div><div class="g-th">เขาอายุ 20 ปี</div>
+          </div>
+          <div class="gold-box">
+            <div class="gold-label">💡 是 is optional for days</div>
+            <div style="font-size:12px;color:var(--text)"><span style="font-family:'Noto Serif SC',serif">今天星期四。</span> = <span style="font-family:'Noto Serif SC',serif">今天是星期四。</span></div>
+          </div>
+          <div class="warn-box">
+            <div class="warn-label">⚠️ negation — must use 不是</div>
+            <div style="font-size:12px;color:var(--text)"><span style="font-family:'Noto Serif SC',serif">今天不是星期一。</span><br><span style="color:var(--text2)">วันนี้ไม่ใช่วันจันทร์ — NOT just 不!</span></div>
+          </div>
+        </div>
+      </div>
 
-  .zh-text {
-    font-family: 'Noto Sans SC', sans-serif;
-    font-size: 28px;
-    font-weight: bold;
-    color: var(--dark);
-    margin-bottom: 5px;
-  }
+      <div class="slide-wrap" data-s="10">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">10</div>
+            <div><div class="slide-topic">grammar 3 + notes</div><div class="slide-main-title">Interrogative Tone &amp; Notes</div></div>
+          </div>
+          <div class="grammar-block">
+            <div class="g-label">📢 rising tone ↗ = question (no 吗 needed)</div>
+            <div class="g-ex">你属狗？↗</div><div class="g-py">nǐ shǔ gǒu?</div><div class="g-th">คุณเกิดปีจอหรอ?</div>
+            <div class="g-ex" style="margin-top:4px">你今年二十岁？↗</div><div class="g-py">nǐ jīnnián èrshí suì?</div><div class="g-th">ปีนี้คุณอายุ 20 หรอ?</div>
+          </div>
+          <div class="two-col" style="margin-top:10px">
+            <div class="compare-col">
+              <div class="cc-title">就 jiù — emphasis</div>
+              <div style="font-family:'Noto Serif SC',serif;font-size:16px;color:var(--text);margin-bottom:4px">就在我的房间。</div>
+              <div style="font-size:11px;color:var(--text2)">"right here in my room!"</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:3px">เน้นความแน่ชัด "นี่แหละ!"</div>
+            </div>
+            <div class="compare-col">
+              <div class="cc-title">是吗？— surprise</div>
+              <div style="font-family:'Noto Serif SC',serif;font-size:22px;color:var(--red);margin-bottom:4px">是吗？</div>
+              <div style="font-size:11px;color:var(--text2)">"Really? Is that so?"</div>
+              <div style="font-size:10px;color:var(--text3);margin-top:3px">ใช้เมื่อรู้สึกแปลกใจ</div>
+            </div>
+          </div>
+          <div class="gold-box" style="margin-top:10px">
+            <div class="gold-label">📝 zodiac pattern</div>
+            <div style="font-size:12px;color:var(--text)"><span style="font-family:'Noto Serif SC',serif">你属什么？→ 我属 + [animal]。</span><br><span style="font-size:10px;color:var(--text3)">Use with all 12 zodiac animals</span></div>
+          </div>
+        </div>
+      </div>
 
-  .pinyin {
-    font-size: 16px;
-    color: #7f8c8d;
-    font-style: italic;
-    margin-bottom: 8px;
-  }
+      <div class="slide-wrap" data-s="11">
+        <div class="content-pad">
+          <div class="slide-header">
+            <div class="slide-num">11</div>
+            <div><div class="slide-topic">key phrase</div><div class="slide-main-title">The Birthday Wish — ประโยคสำคัญ</div></div>
+          </div>
+          <div style="text-align:center;padding:20px 0 16px">
+            <div style="font-family:'Noto Serif SC',serif;font-size:36px;color:var(--text);line-height:1.3;margin-bottom:10px">祝你生日快乐</div>
+            <div style="font-size:14px;color:var(--red);font-style:italic;margin-bottom:6px">Zhù nǐ shēngrì kuàilè</div>
+            <div style="font-size:15px;color:var(--text2)">สุขสันต์วันเกิด!</div>
+          </div>
+          <div class="grammar-block">
+            <div class="g-label">breakdown</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="padding:8px;background:var(--surface);border-radius:8px;text-align:center"><div style="font-family:'Noto Serif SC',serif;font-size:20px;color:var(--red)">祝</div><div style="font-size:10px;color:var(--text3)">zhù = wish</div></div>
+              <div style="padding:8px;background:var(--surface);border-radius:8px;text-align:center"><div style="font-family:'Noto Serif SC',serif;font-size:20px;color:var(--text)">你</div><div style="font-size:10px;color:var(--text3)">nǐ = you</div></div>
+              <div style="padding:8px;background:var(--surface);border-radius:8px;text-align:center"><div style="font-family:'Noto Serif SC',serif;font-size:20px;color:var(--text)">生日</div><div style="font-size:10px;color:var(--text3)">shēngrì = birthday</div></div>
+              <div style="padding:8px;background:var(--surface);border-radius:8px;text-align:center"><div style="font-family:'Noto Serif SC',serif;font-size:20px;color:var(--text)">快乐</div><div style="font-size:10px;color:var(--text3)">kuàilè = happy</div></div>
+            </div>
+          </div>
+          <div class="gold-box" style="margin-top:10px">
+            <div class="gold-label">💡 more wishes</div>
+            <div style="font-size:12px;color:var(--text)"><span style="font-family:'Noto Serif SC',serif">祝你身体健康。</span> — Good health<br><span style="font-family:'Noto Serif SC',serif">祝大家天天快乐！</span> — Happy every day!</div>
+          </div>
+        </div>
+      </div>
 
-  /* สไตล์ระบบแบบฝึกหัดใหม่ 50 คะแนน */
-  .score-sticky {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--dark);
-    color: var(--gold);
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-weight: bold;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    z-index: 99;
-    border: 2px solid var(--gold);
-    font-size: 18px;
-  }
+      <div class="slide-wrap" data-s="12">
+        <div class="closing-slide">
+          <div class="cl-cn">祝你生日快乐</div>
+          <div class="cl-py">Zhù nǐ shēngrì kuàilè</div>
+          <div class="cl-th">สุขสันต์วันเกิด!</div>
+          <div class="cl-emoji">🍑 🧧 🎂 🍜</div>
+          <div style="font-family:'Noto Serif SC',serif;font-size:26px;color:rgba(240,208,96,.7);margin-bottom:14px">谢谢</div>
+          <div class="cl-note">长寿面 · 寿桃 · 红包<br>Long Life Noodles · Longevity Peach · Red Envelope<br><br>第二十课 完</div>
+        </div>
+      </div>
 
-  .progress-bg {
-    background: rgba(255,255,255,0.2);
-    height: 6px;
-    border-radius: 3px;
-    margin-top: 5px;
-    width: 100px;
-  }
-  .progress-fill {
-    background: var(--gold);
-    height: 100%;
-    width: 0%;
-    transition: width 0.3s;
-  }
+    </div></div><div id="quiz-screen" class="screen">
+    <div id="quiz-start" class="quiz-start">
+      <div class="qs-cn">测验</div>
+      <div class="qs-title">Vocabulary Quiz</div>
+      <div class="qs-sub">Test your knowledge of all 24 vocabulary words from Lesson 20. Choose your quiz type:</div>
+      <div class="qs-options" id="quiz-type-opts">
+        <button class="qs-opt-btn selected" data-qt="cn-to-th" onclick="selectQuizType(this)">
+          <span class="qs-opt-icon">🀄</span>
+          <div><div style="font-weight:500">Chinese → Thai</div><div style="font-size:11px;color:var(--text3);margin-top:2px">See character, pick Thai meaning</div></div>
+        </button>
+        <button class="qs-opt-btn" data-qt="th-to-cn" onclick="selectQuizType(this)">
+          <span class="qs-opt-icon">🇹🇭</span>
+          <div><div style="font-weight:500">Thai → Chinese</div><div style="font-size:11px;color:var(--text3);margin-top:2px">See Thai word, pick character</div></div>
+        </button>
+        <button class="qs-opt-btn" data-qt="py-to-cn" onclick="selectQuizType(this)">
+          <span class="qs-opt-icon">🔤</span>
+          <div><div style="font-weight:500">Pinyin → Chinese</div><div style="font-size:11px;color:var(--text3);margin-top:2px">See pinyin, pick character</div></div>
+        </button>
+      </div>
+      <button class="qs-start-btn" onclick="startQuiz()">Start Quiz →</button>
+    </div>
 
-  .section-box {
-    background: var(--paper);
-    border: 2px solid #e2d7b4;
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 30px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.04);
-  }
+    <div id="quiz-active" style="display:none">
+      <div class="quiz-header">
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="q-prog"></div></div>
+        <div class="quiz-meta">
+          <span class="quiz-q-count" id="q-count-lbl">Question 1 of 10</span>
+          <span class="quiz-score-badge" id="q-score-lbl">Score: 0</span>
+        </div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-q-box">
+          <div class="quiz-q-type" id="q-type-lbl">What does this mean in Thai?</div>
+          <div class="quiz-q-cn" id="q-main"></div>
+          <div class="quiz-q-py" id="q-sub"></div>
+        </div>
+        <div class="quiz-options" id="q-opts"></div>
+        <div class="quiz-feedback" id="q-feedback"></div>
+        <button class="quiz-next-btn" id="q-next" onclick="nextQuestion()">Next →</button>
+      </div>
+    </div>
 
-  .sec-title {
-    background: var(--red);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-bottom: 15px;
-    font-weight: 600;
-  }
-
-  /* ระบบจับคู่ */
-  .match-area { display: flex; gap: 20px; margin-top: 15px; }
-  .match-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-  .item-btn {
-    background: #fff; border: 2px solid #d4c59f; padding: 12px;
-    border-radius: 8px; cursor: pointer; text-align: center; font-size: 16px;
-    font-weight: 600; transition: all 0.2s;
-  }
-  .item-btn:hover { background: var(--light-red); border-color: var(--red); }
-  .item-btn.selected { background: #f39c12; color: white; border-color: #d35400; }
-  .item-btn.matched { background: var(--light-green); color: var(--green); border-color: var(--green); cursor: default; }
-
-  /* ระบบเติมคำ/แปล/พินอิน */
-  .q-row { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 12px; border: 1px solid #e8e0c5; }
-  .q-text { font-size: 18px; margin-bottom: 8px; font-weight: 600; }
-  .zh-q { font-family: 'Noto Sans SC', sans-serif; font-size: 22px; color: var(--accent); }
-  .inp-txt { width: 100%; padding: 10px; border: 2px solid #ccc; border-radius: 6px; font-size: 16px; margin-top: 5px; }
-  .inp-txt:focus { border-color: var(--red); outline: none; }
-
-  /* ระบบเรียงประโยค */
-  .block-container { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0; min-height: 45px; padding: 5px; background: #fdfbf4; border: 1px dashed #cdc19c; border-radius: 6px; }
-  .word-block { background: var(--dark); color: var(--gold); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 18px; font-family: 'Noto Sans SC', sans-serif; user-select: none; }
-
-  .check-btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: bold; margin-top: 10px; }
-  .feedback { margin-top: 8px; font-weight: bold; display: none; padding: 8px; border-radius: 4px; }
-  .feedback.show { display: block; }
-  .feedback.correct { background: var(--light-green); color: var(--green); }
-  .feedback.wrong { background: var(--light-red); color: var(--red); }
-
-  /* แบบประเมินตนเอง */
-  .radio-group { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .radio-label { display: flex; align-items: center; gap: 8px; cursor: pointer; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #e8e0c5; }
-
-  .finish-btn { background: var(--green); color: white; border: none; padding: 16px 32px; border-radius: 30px; font-size: 20px; cursor: pointer; font-weight: bold; width: 100%; box-shadow: 0 6px 15px rgba(0,0,0,0.1); margin-top: 20px; }
-  .result-box { display: none; background: var(--dark); color: var(--gold); padding: 30px; border-radius: 12px; text-align: center; margin-top: 30px; border: 3px double var(--gold); }
-  .result-box.show { display: block; }
-
-</style>
-</head>
-<body>
-
-  <div class="top-nav">
-    <button class="tab-btn active" onclick="switchPage('lesson-page')">📖 1. บทเรียนพื้นฐาน</button>
-    <button class="tab-btn" onclick="switchPage('quiz-page')">🎯 2. ทำแบบฝึกหัด (50 คะแนน)</button>
+    <div id="quiz-result" class="quiz-result">
+      <div class="qr-emoji" id="qr-emoji">🎉</div>
+      <div class="qr-title" id="qr-title">Quiz Complete!</div>
+      <div class="qr-score" id="qr-score">8 / 10</div>
+      <div class="qr-sub" id="qr-sub">Great job!</div>
+      <div class="qr-msg" id="qr-msg"></div>
+      <div class="qr-detail" id="qr-detail"></div>
+      <button class="qr-restart" onclick="resetQuiz()">Try Again 🔄</button>
+    </div>
   </div>
 
-  <div class="main-container">
-
-    <div class="header-banner">
-      <h1>祝你生日快乐</h1>
-      <p>บทที่ 20 : สุขสันต์วันเกิด | ภาษาจีน ม.1 Active Learning</p>
+  <div id="summary-screen" class="screen">
+    <div class="sum-section">
+      <div class="sum-section-title">📚 All Vocabulary — 24 words</div>
+      <div class="sum-grid" id="sum-vocab-grid"></div>
     </div>
-
-    <div id="lesson-page" class="page-content active">
-      
-      <div class="lesson-card">
-        <h2>✨ คำศัพท์ประจำบทเรียน (Vocabulary)</h2>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">生日</div>
-          <div class="pinyin">shēngrì</div>
-          <p><b>ความหมาย:</b> วันเกิด</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">快乐</div>
-          <div class="pinyin">kuàilè</div>
-          <p><b>ความหมาย:</b> มีความสุข / สุขสันต์</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">祝</div>
-          <div class="pinyin">zhù</div>
-          <p><b>ความหมาย:</b> อวยพร / ขอให้</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">年</div>
-          <div class="pinyin">nián</div>
-          <p><b>ความหมาย:</b> ปี</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">月</div>
-          <div class="pinyin">yuè</div>
-          <p><b>ความหมาย:</b> เดือน</p>
-        </div>
-        <div style="margin-bottom: 15px;">
-          <div class="zh-text">号</div>
-          <div class="pinyin">hào</div>
-          <p><b>ความหมาย:</b> วันที่ (ภาษาพูด)</p>
-        </div>
-      </div>
-
-      <div class="lesson-card">
-        <h2>📐 โครงสร้างไวยากรณ์หลัก (Grammar)</h2>
-        <p style="margin-bottom: 10px;">💡 <b>การบอกวันที่ในภาษาจีน:</b> จะเรียงลำดับจากหน่วยใหญ่ไปหน่วยเล็ก คือ <b>ปี ➔ เดือน ➔ วันที่</b> ซึ่งต่างจากภาษาไทย</p>
-        <div class="zh-text" style="font-size: 24px; color: var(--accent);">...年...月...号 / 日</div>
-        <p style="margin-top: 5px; color: #555;">ตัวอย่างเช่น: 10 ตุลาคม = 十月十号 (Shíyuè shí hào)</p>
-      </div>
-
-      <div class="lesson-card">
-        <h2>🎉 ประโยคอวยพรวันเกิด</h2>
-        <div class="zh-text">祝你生日快乐！</div>
-        <div class="pinyin">Zhù nǐ shēngrì kuàilè!</div>
-        <p><b>แปลภาษาไทย:</b> ขอให้คุณมีความสุขในวันเกิด / สุขสันต์วันเกิด!</p>
-      </div>
-
+    <div class="sum-section">
+      <div class="sum-section-title">📐 Grammar Points</div>
+      <div id="sum-grammar"></div>
     </div>
-
-
-    <div id="quiz-page" class="page-content">
-
-      <div class="score-sticky" id="scoreBar">
-        <div id="scoreDisplay">⭐ คะแนนรวม: 0 / 50 คะแนน</div>
-        <div class="progress-bg"><div class="progress-fill" id="progressFill"></div></div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 1: จับคู่คำศัพท์ภาษาจีน-ไทย (10 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 คลิกคำศัพท์ภาษาจีน แล้วคลิกความหมายภาษาไทยให้ถูกต้อง (คู่ละ 2 คะแนน)</p>
-        <div class="match-area">
-          <div class="match-col" id="cnCol"></div>
-          <div class="match-col" id="thCol"></div>
-        </div>
-        <div class="feedback" id="match-fb"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="match-score">0</span> / 10</div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 2: พินอินหรรษา (10 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 พิมพ์เสียงพินอินของคำศัพท์ต่อไปนี้ให้ถูกต้อง (ตัวพิมพ์เล็ก ไม่ต้องใส่เสียงวรรณยุกต์ เช่น shengri)</p>
-        <div id="pinyinQuestions"></div>
-        <button class="check-btn" onclick="checkPinyin()">ตรวจคำตอบพินอิน</button>
-        <div class="feedback" id="pinyin-fb"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="pinyin-score">0</span> / 10</div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 3: เติมคำในช่องว่าง (10 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 เลือกคำศัพท์จีนเติมลงในช่องว่างให้ประโยคสมบูรณ์: <b>[ 祝 , 生日 , 快乐 , 月 , 号 ]</b></p>
-        <div id="fillQuestions"></div>
-        <button class="check-btn" onclick="checkFill()">ตรวจคำตอบการเติมคำ</button>
-        <div class="feedback" id="fill-fb"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="fill-score">0</span> / 10</div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 4: แปลประโยคภาษาจีน (10 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 พิมพ์คำแปลภาษาไทยของประโยคภาษาจีนต่อไปนี้ให้ถูกต้องพิมพ์ติดกันไม่ต้องเว้นวรรค</p>
-        <div id="translateQuestions"></div>
-        <button class="check-btn" onclick="checkTranslate()">ตรวจคำตอบการแปล</button>
-        <div class="feedback" id="translate-fb"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="translate-score">0</span> / 10</div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 5: เรียงประโยคให้ถูกต้อง (5 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 คลิกคำศัพท์ด้านล่างเรียงลำดับให้กลายเป็นประโยคที่ถูกต้อง (หากคลิกผิดสามารถคลิกคำในกล่องเรียงเพื่อเอาออกได้)</p>
-        <div id="reorderQuestions"></div>
-        <button class="check-btn" onclick="checkReorder()">ตรวจคำตอบการเรียงประโยค</button>
-        <div class="feedback" id="reorder-fb"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="reorder-score">0</span> / 5</div>
-      </div>
-
-      <div class="section-box">
-        <div class="sec-title">ส่วนที่ 6: แบบประเมินตนเองพึงพอใจ (5 คะแนน)</div>
-        <p style="font-size:14px; color:#666; margin-bottom:10px;">💡 นักเรียนมีความพึงพอใจและความเข้าใจในบทเรียนนี้ในระดับใด</p>
-        <div id="selfAssessment"></div>
-        <div style="margin-top:10px; font-weight:bold; color:var(--green);">คะแนนส่วนนี้: <span id="self-score">0</span> / 5</div>
-      </div>
-
-      <button class="finish-btn" onclick="showResult()">📊 สรุปคะแนนรวมทั้งหมด</button>
-
-      <div class="result-box" id="resultSection">
-        <h2>🎉 สรุปผลการทำกิจกรรมสำเร็จ！</h2>
-        <p style="font-size:24px; margin:15px 0;">คุณได้คะแนนรวมทั้งสิ้น <strong id="resultScore" style="color:var(--gold); font-size:40px;">0</strong> / 50 คะแนน</p>
-        <p id="resultMsg" style="font-size:18px; font-weight:bold;"></p>
-      </div>
-
-    </div>
-
+    <div style="height:16px"></div>
   </div>
 
-  <script>
-    // ระบบสลับหน้าแท็บ
-    function switchPage(pageId) {
-      document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      
-      document.getElementById(pageId).classList.add('active');
-      event.target.classList.add('active');
+  <nav class="bottom-nav">
+    <button class="bn-btn active" id="bn-slides" onclick="switchMode('slides')">
+      <span class="bn-icon">📖</span>Slides
+    </button>
+    <button class="bn-btn" id="bn-quiz" onclick="switchMode('quiz')">
+      <span class="bn-icon">✏️</span>Quiz
+    </button>
+    <button class="bn-btn" id="bn-summary" onclick="switchMode('summary')">
+      <span class="bn-icon">📋</span>Summary
+    </button>
+  </nav>
 
-      // ซ่อน/แสดง แถบคะแนนลอยตัวตามหน้า
-      if(pageId === 'quiz-page') {
-        document.getElementById('scoreBar').style.display = 'block';
-      } else {
-        document.getElementById('scoreBar').style.display = 'none';
-      }
+</div><script>
+// ══ MODE SWITCHING ══
+function switchMode(m){
+  ['slides','quiz','summary'].forEach(s=>{
+    document.getElementById(s+'-screen').classList.toggle('active',s===m);
+    document.getElementById('bn-'+s).classList.toggle('active',s===m);
+  });
+  document.querySelectorAll('.mode-tab').forEach(t=>t.classList.toggle('active',t.textContent.toLowerCase()===m));
+}
+
+// ══ SLIDES ══
+let curSlide=1,total=12;
+function buildDots(){
+  const c=document.getElementById('dots');c.innerHTML='';
+  for(let i=1;i<=total;i++){
+    const d=document.createElement('button');
+    d.className='dot'+(i===curSlide?' active':'');
+    d.onclick=()=>goSlide(i);c.appendChild(d);
+  }
+  document.getElementById('s-count').textContent=curSlide+' / '+total;
+  document.getElementById('prev-btn').disabled=curSlide===1;
+  document.getElementById('next-btn').disabled=curSlide===total;
+}
+function goSlide(n){
+  document.querySelector('.slide-wrap.active').classList.remove('active');
+  curSlide=n;
+  document.querySelector('[data-s="'+n+'"]').classList.add('active');
+  document.getElementById('slides-container').scrollTop=0;
+  buildDots();
+}
+function changeSlide(d){const n=curSlide+d;if(n>=1&&n<=total)goSlide(n);}
+function toggleVCard(el){
+  const p=el.parentElement;
+  const was=el.classList.contains('open');
+  p.querySelectorAll('.vocab-card').forEach(c=>c.classList.remove('open'));
+  if(!was)el.classList.add('open');
+}
+buildDots();
+
+// ══ VOCAB DATA ══
+const VOCAB=[
+  {cn:'去年',py:'qùnián',th:'ปีที่แล้ว',pos:'名'},
+  {cn:'今年',py:'jīnnián',th:'ปีนี้',pos:'名'},
+  {cn:'明年',py:'míngnián',th:'ปีหน้า',pos:'名'},
+  {cn:'后年',py:'hòunián',th:'ปีมะรืนนี้',pos:'名'},
+  {cn:'毕业',py:'bìyè',th:'สำเร็จการศึกษา',pos:'动'},
+  {cn:'多大',py:'duō dà',th:'อายุเท่าไหร่',pos:'副'},
+  {cn:'岁',py:'suì',th:'ปี/ขวบ (บอกอายุ)',pos:'量'},
+  {cn:'正好',py:'zhènghǎo',th:'พอดี/ประจวบเหมาะ',pos:'副/形'},
+  {cn:'属',py:'shǔ',th:'เกิดปีนักษัตร',pos:'动'},
+  {cn:'狗',py:'gǒu',th:'สุนัข/ปีจอ',pos:'名'},
+  {cn:'猪',py:'zhū',th:'หมู/ปีกุน',pos:'名'},
+  {cn:'生日',py:'shēngrì',th:'วันเกิด',pos:'名'},
+  {cn:'月',py:'yuè',th:'เดือน',pos:'名'},
+  {cn:'号',py:'hào',th:'วันที่ (พูด)',pos:'量'},
+  {cn:'打算',py:'dǎsuàn',th:'วางแผน/แผนการ',pos:'动/名'},
+  {cn:'过',py:'guò',th:'ฉลอง/จัดงาน',pos:'动'},
+  {cn:'准备',py:'zhǔnbèi',th:'เตรียมตัว',pos:'动'},
+  {cn:'举行',py:'jǔxíng',th:'จัดงาน/พิธี',pos:'动'},
+  {cn:'晚会',py:'wǎnhuì',th:'งานปาร์ตี้ตอนเย็น',pos:'名'},
+  {cn:'参加',py:'cānjiā',th:'เข้าร่วม',pos:'动'},
+  {cn:'时间',py:'shíjiān',th:'เวลา',pos:'名'},
+  {cn:'一定',py:'yídìng',th:'แน่นอน/ต้อง',pos:'副'},
+  {cn:'祝',py:'zhù',th:'อวยพร/ขอให้',pos:'动'},
+  {cn:'快乐',py:'kuàilè',th:'มีความสุข',pos:'形'},
+];
+
+// ══ QUIZ LOGIC (FIXED) ══
+let quizType='cn-to-th',qIdx=0,qScore=0,qAnswered=false,qQuestions=[],qResults=[];
+
+function selectQuizType(btn){
+  document.querySelectorAll('.qs-opt-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  quizType=btn.dataset.qt;
+}
+
+function shuffle(a){
+  let arr = [...a];
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function buildQuestions(){
+  const pool=shuffle(VOCAB).slice(0,10);
+  return pool.map(v=>{
+    const wrong=shuffle(VOCAB.filter(w=>w.cn!==v.cn)).slice(0,3);
+    const opts=shuffle([v,...wrong]);
+    return{correct:v,opts};
+  });
+}
+
+function startQuiz(){
+  qIdx=0;qScore=0;qAnswered=false;qResults=[];
+  qQuestions=buildQuestions();
+  document.getElementById('quiz-start').style.display='none';
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-active').style.display='block';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=qQuestions[qIdx];
+  const pct=((qIdx)/qQuestions.length)*100;
+  document.getElementById('q-prog').style.width=pct+'%';
+  document.getElementById('q-count-lbl').textContent='Question '+(qIdx+1)+' of '+qQuestions.length;
+  document.getElementById('q-score-lbl').textContent='Score: '+qScore;
+  qAnswered=false;
+
+  const typeLabels={'cn-to-th':'What is the Thai meaning?','th-to-cn':'Which Chinese character?','py-to-cn':'Which character matches the pinyin?'};
+  document.getElementById('q-type-lbl').textContent=typeLabels[quizType];
+
+  const mainEl=document.getElementById('q-main');
+  const subEl=document.getElementById('q-sub');
+
+  if(quizType==='cn-to-th'){
+    mainEl.style.fontSize='44px';mainEl.textContent=q.correct.cn;
+    subEl.textContent=q.correct.py;
+  } else if(quizType==='th-to-cn'){
+    mainEl.style.fontSize='24px';mainEl.textContent=q.correct.th;
+    subEl.textContent='';
+  } else {
+    mainEl.style.fontSize='24px';mainEl.textContent=q.correct.py;
+    subEl.textContent='';
+  }
+
+  const optsEl=document.getElementById('q-opts');
+  optsEl.innerHTML='';
+  
+  q.opts.forEach(o=>{
+    const btn=document.createElement('button');
+    btn.className='q-opt';
+    // เก็บออบเจ็กต์ข้อมูลคำศัพท์ไว้ตรวจสอบตอนคลิก
+    btn.jsonData = o; 
+    
+    if(quizType==='cn-to-th'){
+      btn.innerHTML='<span style="font-size:11px;color:var(--text3);display:block;margin-bottom:2px">'+o.py+'</span>'+o.th;
+    } else if(quizType==='th-to-cn' || quizType==='py-to-cn'){
+      btn.innerHTML='<span class="q-opt-cn">'+o.cn+'</span><span style="font-size:10px;color:var(--text3)">'+o.py+'</span>';
     }
+    
+    btn.onclick=()=>answerQ(btn, o, q.correct);
+    optsEl.appendChild(btn);
+  });
 
-    // ข้อมูลระบบแบบฝึกหัด
-    let scores = { match: 0, pinyin: 0, fill: 0, translate: 0, reorder: 0, self: 0 };
+  const fb=document.getElementById('q-feedback');
+  fb.className='quiz-feedback';fb.textContent='';
+  document.getElementById('q-next').style.display='none';
+}
 
-    const matchData = [
-      { cn: '生日', th: 'วันเกิด' },
-      { cn: '快乐', th: 'มีความสุข' },
-      { cn: '祝', th: 'อวยพร' },
-      { cn: '月', th: 'เดือน' },
-      { cn: '号', th: 'วันที่' }
-    ];
+function answerQ(btn, chosen, correct){
+  if(qAnswered) return;
+  qAnswered=true;
+  
+  const isCorrect = (chosen.cn === correct.cn);
+  const fb=document.getElementById('q-feedback');
 
-    const pinyinData = [
-      { q: '1. 生日', a: 'shengri' },
-      { q: '2. 快乐', a: 'kuaile' },
-      { q: '3. 祝', a: 'zhu' },
-      { q: '4. 月', a: 'yue' },
-      { q: '5. 号', a: 'hao' }
-    ];
-
-    const fillData = [
-      { text: '1. 祝你生日____！', a: '快乐' },
-      { text: '2. 今天是十____十号。', a: '月' },
-      { text: '3. ____你生日快乐！', a: '祝' },
-      { text: '4. 我的____是十月十号。', a: '生日' },
-      { text: '5. 今天是十月十____。', a: '号' }
-    ];
-
-    const translateData = [
-      { q: '1. 祝你生日快乐！', a: ['สุขสันต์วันเกิด','ขอให้คุณมีความสุขในวันเกิด','ขอให้คุณมีความสุขวันเกิด'] },
-      { q: '2. 我的生日是十月十号。', a: ['วันเกิดของฉันคือวันที่10ตุลาคม','วันเกิดของฉันคือ10ตุลาคม'] }
-    ];
-
-    const reorderData = [
-      { words: ['生日', '祝', '快乐', '你'], correct: '祝你生日快乐', current: [] }
-    ];
-
-    // เริ่มต้นสร้างข้อสอบทั้งหมด
-    window.onload = function() {
-      document.getElementById('scoreBar').style.display = 'none'; // ซ่อนตอนอยู่หน้าแรก
-      buildMatch();
-      buildPinyin();
-      buildFill();
-      buildTranslate();
-      buildReorder();
-      buildSelf();
-    };
-
-    // 1. ระบบจับคู่
-    let selectedCn = null;
-    function buildMatch() {
-      const cnCol = document.getElementById('cnCol');
-      const thCol = document.getElementById('thCol');
-      cnCol.innerHTML = ''; thCol.innerHTML = '';
-      
-      matchData.forEach(item => {
-        const btn = document.createElement('button');
-        btn.className = 'item-btn'; btn.textContent = item.cn;
-        btn.onclick = () => selectCn(btn, item.cn);
-        cnCol.appendChild(btn);
-      });
-
-      [...matchData].sort(() => Math.random() - 0.5).forEach(item => {
-        const btn = document.createElement('button');
-        btn.className = 'item-btn'; btn.textContent = item.th;
-        btn.onclick = () => selectThai(btn, item.th);
-        thCol.appendChild(btn);
-      });
+  // ปิดการกดปุ่มตัวเลือกทั้งหมด
+  document.querySelectorAll('.q-opt').forEach(b=>{
+    b.style.pointerEvents='none';
+    // แสดงเฉลยสีเขียวให้ปุ่มที่ถูกต้อง
+    if(b.jsonData && b.jsonData.cn === correct.cn){
+      b.classList.add('reveal-correct');
     }
+  });
 
-    function selectCn(btn, val) {
-      if(btn.classList.contains('matched')) return;
-      document.querySelectorAll('#cnCol .item-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      selectedCn = { btn: btn, val: val };
-    }
+  if(isCorrect){
+    btn.classList.add('correct');
+    qScore++;
+    fb.textContent='✅ Correct! '+correct.cn+' = '+correct.th+' ('+correct.py+')';
+    fb.className='quiz-feedback show ok';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent='❌ Not quite. The answer is '+correct.cn+' ('+correct.py+') = '+correct.th;
+    fb.className='quiz-feedback show no';
+  }
 
-    function selectThai(btn, val) {
-      if(btn.classList.contains('matched') || !selectedCn) return;
-      const pair = matchData.find(d => d.cn === selectedCn.val);
-      if(pair && pair.th === val) {
-        selectedCn.btn.className = 'item-btn matched';
-        btn.className = 'item-btn matched';
-        scores.match += 2;
-        document.getElementById('match-score').textContent = scores.match;
-        updateTotalScore();
-      } else {
-        selectedCn.btn.classList.remove('selected');
-      }
-      selectedCn = null;
-    }
+  qResults.push({correct:correct,chosen:chosen,ok:isCorrect});
+  document.getElementById('q-score-lbl').textContent='Score: '+qScore;
+  document.getElementById('q-next').style.display='block';
+}
 
-    // 2. พินอิน
-    function buildPinyin() {
-      const container = document.getElementById('pinyinQuestions');
-      container.innerHTML = '';
-      pinyinData.forEach((item, idx) => {
-        container.innerHTML += `
-          <div class="q-row">
-            <div class="q-text zh-q">${item.q}</div>
-            <input type="text" class="inp-txt pinyin-inp" data-idx="${idx}" placeholder="พิมพ์พินอินที่นี่...">
-          </div>
-        `;
-      });
-    }
+function nextQuestion(){
+  qIdx++;
+  if(qIdx>=qQuestions.length){
+    showResult();
+  }else{
+    renderQuestion();
+  }
+}
 
-    function checkPinyin() {
-      let score = 0;
-      const inps = document.querySelectorAll('.pinyin-inp');
-      inps.forEach(inp => {
-        const idx = inp.getAttribute('data-idx');
-        if(inp.value.trim().toLowerCase() === pinyinData[idx].a) {
-          score += 2;
-        }
-      });
-      scores.pinyin = score;
-      document.getElementById('pinyin-score').textContent = score;
-      showFeedback('pinyin-fb', true, `ระบบบันทึกคะแนนพินอินสำเร็จ: ${score}/10 คะแนน`);
-      updateTotalScore();
-    }
+function showResult(){
+  document.getElementById('quiz-active').style.display='none';
+  const r=document.getElementById('quiz-result');
+  r.classList.add('show');
+  const pct=Math.round((qScore/qQuestions.length)*100);
+  document.getElementById('qr-score').textContent=qScore+' / '+qQuestions.length;
+  let emoji='🎉',title='Excellent!',msg='Outstanding work! You know this vocabulary very well.';
+  if(pct<50){emoji='📚';title='Keep Practicing';msg='Review the vocabulary cards and try again. You can do it!';}
+  else if(pct<70){emoji='👍';title='Good Effort!';msg='You\'re getting there! A bit more review and you\'ll ace it.';}
+  else if(pct<90){emoji='🌟';title='Great Job!';msg='Almost perfect! Review the ones you missed and try again.';}
+  document.getElementById('qr-emoji').textContent=emoji;
+  document.getElementById('qr-title').textContent=title;
+  document.getElementById('qr-sub').textContent=pct+'% — '+qScore+' correct out of '+qQuestions.length;
+  document.getElementById('qr-msg').textContent=msg;
 
-    // 3. เติมคำ
-    function buildFill() {
-      const container = document.getElementById('fillQuestions');
-      container.innerHTML = '';
-      fillData.forEach((item, idx) => {
-        container.innerHTML += `
-          <div class="q-row">
-            <div class="q-text">${item.text}</div>
-            <input type="text" class="inp-txt fill-inp" data-idx="${idx}" placeholder="พิมพ์คำศัพท์จีนที่นี่...">
-          </div>
-        `;
-      });
-    }
+  const det=document.getElementById('qr-detail');
+  det.innerHTML='<div style="font-size:11px;color:var(--text3);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Review</div>';
+  qResults.forEach(res=>{
+    const row=document.createElement('div');
+    row.className='qr-row';
+    row.innerHTML='<span class="qr-icon">'+(res.ok?'✅':'❌')+'</span>'+
+      '<div class="qr-q-text"><span style="font-family:\'Noto Serif SC\',serif;font-size:15px">'+res.correct.cn+'</span>'+
+      ' <span style="color:var(--text3);font-size:11px;font-style:italic">'+res.correct.py+'</span>'+
+      '<br><span style="font-size:11px">'+res.correct.th+'</span>'+
+      (res.ok?'':'<br><span style="font-size:11px;color:var(--red)">You answered: '+res.chosen.cn+' ('+res.chosen.th+')</span>')+'</div>';
+    det.appendChild(row);
+  });
+  document.getElementById('q-prog').style.width='100%';
+}
 
-    function checkFill() {
-      let score = 0;
-      const inps = document.querySelectorAll('.fill-inp');
-      inps.forEach(inp => {
-        const idx = inp.getAttribute('data-idx');
-        if(inp.value.trim() === fillData[idx].a) {
-          score += 2;
-        }
-      });
-      scores.fill = score;
-      document.getElementById('fill-score').textContent = score;
-      showFeedback('fill-fb', true, `ระบบบันทึกคะแนนการเติมคำสำเร็จ: ${score}/10 คะแนน`);
-      updateTotalScore();
-    }
+function resetQuiz(){
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-start').style.display='flex';
+}
 
-    // 4. แปลประโยค
-    function buildTranslate() {
-      const container = document.getElementById('translateQuestions');
-      container.innerHTML = '';
-      translateData.forEach((item, idx) => {
-        container.innerHTML += `
-          <div class="q-row">
-            <div class="q-text zh-q">${item.q}</div>
-            <input type="text" class="inp-txt trans-inp" data-idx="${idx}" placeholder="พิมพ์คำแปลภาษาไทยติดกัน...">
-          </div>
-        `;
-      });
-    }
+// ══ SUMMARY INITIALIZATION ══
+(function buildSummary(){
+  const grid=document.getElementById('sum-vocab-grid');
+  VOCAB.forEach(v=>{
+    const c=document.createElement('div');
+    c.className='sum-card';
+    c.innerHTML='<div class="sum-cn">'+v.cn+'</div>'+
+      '<div class="sum-py">'+v.py+'</div>'+
+      '<span class="sum-pos-badge">'+v.pos+'</span>'+
+      '<div class="sum-th">'+v.th+'</div>';
+    grid.appendChild(c);
+  });
 
-    function checkTranslate() {
-      let score = 0;
-      const inps = document.querySelectorAll('.trans-inp');
-      inps.forEach(inp => {
-        const idx = inp.getAttribute('data-idx');
-        const userVal = inp.value.trim().replace(/\s+/g, '');
-        if(translateData[idx].a.includes(userVal)) {
-          score += 5;
-        }
-      });
-      scores.translate = score;
-      document.getElementById('translate-score').textContent = score;
-      showFeedback('translate-fb', true, `ระบบบันทึกคะแนนการแปลสำเร็จ: ${score}/10 คะแนน`);
-      updateTotalScore();
-    }
-
-    // 5. เรียงประโยค
-    function buildReorder() {
-      const container = document.getElementById('reorderQuestions');
-      container.innerHTML = '';
-      reorderData.forEach((item, idx) => {
-        container.innerHTML += `
-          <div class="q-row">
-            <div class="q-text">คลิกเรียงประโยค: "ขอให้คุณมีความสุขในวันเกิด"</div>
-            <div class="block-container" id="target-${idx}"></div>
-            <div class="block-container" id="source-${idx}"></div>
-          </div>
-        `;
-        setTimeout(() => renderBlocks(idx), 0);
-      });
-    }
-
-    function renderBlocks(idx) {
-      const item = reorderData[idx];
-      const sContainer = document.getElementById(`source-${idx}`);
-      const tContainer = document.getElementById(`target-${idx}`);
-      sContainer.innerHTML = ''; tContainer.innerHTML = '';
-
-      item.words.forEach(w => {
-        if(!item.current.includes(w)) {
-          const blk = document.createElement('div');
-          blk.className = 'word-block'; blk.textContent = w;
-          blk.onclick = () => { item.current.push(w); renderBlocks(idx); };
-          sContainer.appendChild(blk);
-        }
-      });
-
-      item.current.forEach(w => {
-        const blk = document.createElement('div');
-        blk.className = 'word-block'; blk.textContent = w;
-        blk.onclick = () => { item.current = item.current.filter(x => x !== w); renderBlocks(idx); };
-        tContainer.appendChild(blk);
-      });
-    }
-
-    function checkReorder() {
-      let score = 0;
-      reorderData.forEach((item, idx) => {
-        if(item.current.join('') === item.correct) {
-          score += 5;
-        }
-      });
-      scores.reorder = score;
-      document.getElementById('reorder-score').textContent = score;
-      showFeedback('reorder-fb', true, `ระบบบันทึกคะแนนการเรียงประโยคสำเร็จ: ${score}/5 คะแนน`);
-      updateTotalScore();
-    }
-
-    // 6. แบบประเมินตนเอง
-    function buildSelf() {
-      const container = document.getElementById('selfAssessment');
-      container.innerHTML = `
-        <div class="q-row">
-          <div class="q-text">ระดับความเข้าใจและความพึงพอใจในบทเรียนนี้:</div>
-          <div class="radio-group">
-            <label class="radio-label"><input type="radio" name="self" value="5" onclick="setSelfScore(5)"> ⭐⭐⭐⭐⭐ เข้าใจแจ่มแจ้ง มีความสุขมาก (5 คะแนน)</label>
-            <label class="radio-label"><input type="radio" name="self" value="4" onclick="setSelfScore(4)"> ⭐⭐⭐⭐ เข้าใจดี สนุกสนาน (4 คะแนน)</label>
-            <label class="radio-label"><input type="radio" name="self" value="3" onclick="setSelfScore(3)"> ⭐⭐⭐ เข้าใจปานกลาง พอใช้ได้ (3 คะแนน)</label>
-            <label class="radio-label"><input type="radio" name="self" value="2" onclick="setSelfScore(2)"> ⭐⭐ ค่อนข้างงง ต้องทบทวนเพิ่ม (2 คะแนน)</label>
-          </div>
-        </div>
-      `;
-    }
-
-    function setSelfScore(val) {
-      scores.self = val;
-      document.getElementById('self-score').textContent = val;
-      updateTotalScore();
-    }
-
-    // ฟังก์ชันเครื่องมือแชร์คะแนน
-    function showFeedback(id, isCorrect, text) {
-      const fb = document.getElementById(id);
-      fb.className = `feedback show ${isCorrect ? 'correct' : 'wrong'}`;
-      fb.textContent = text;
-    }
-
-    function updateTotalScore() {
-      const total = scores.match + scores.pinyin + scores.fill + scores.translate + scores.reorder + scores.self;
-      document.getElementById('scoreDisplay').textContent = `⭐ คะแนนรวม: ${total} / 50 คะแนน`;
-      document.getElementById('progressFill').style.width = (total / 50 * 100) + '%';
-    }
-
-    function showResult() {
-      const total = scores.match + scores.pinyin + scores.fill + scores.translate + scores.reorder + scores.self;
-      const rs = document.getElementById('resultSection');
-      rs.classList.add('show');
-      document.getElementById('resultScore').textContent = total;
-      let msg = total >= 45 ? '🌟 ยอดเยี่ยมมาก! คุณเป็นอัจฉริยะภาษาจีนประจำห้องเรียน Active Learning แล้ว!' :
-                total >= 35 ? '👍 ดีมาก! ทำได้ดีและตั้งใจเรียนมากเลยจ้า!' :
-                total >= 25 ? '😊 พยายามต่อไปนะจะ ลองเปิดกลับไปทบทวนแท็บแรกดูอีกครั้งน้า!' : '💪 ฝึกฝนต่ออีกนิด ค่อยๆ เรียนรู้ สู้ๆ นะคะ!';
-      document.getElementById('resultMsg').textContent = msg;
-      rs.scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+  const grams=[
+    {
+      title:'Expressing Dates',tag:'Grammar 1',
+      rule:'年 → 月 → 日/号',
+      items:[
+        {cn:'1949年5月4日',py:'yī jiǔ sì jiǔ nián wǔ yuè sì rì',th:'4 May 1949 (written)'},
+        {cn:'今天十月二十七号。',py:'jīntiān shí yuè èrshíqī hao.',th:'Today is October 27th (spoken)'},
+      ],note:'日 = formal writing · 号 = spoken'
+    },
+    {
+      title:'Nominal Predicates (S + NP)',tag:'Grammar 2',
+      rule:'No 是 needed for time, age, price',
+      items:[
+        {cn:'现在八点半。',py:'xiànzài bā diǎn bàn.',th:'It\'s 8:30 now.'},
+        {cn:'他二十岁。',py:'tā èrshí suì.',th:'He is 20 years old.'},
+      ],note:'Negation: use 不是, never just 不'
+    },
+    {
+      title:'Interrogative Tone ↗',tag:'Grammar 3',
+      rule:'Rising intonation = question',
+      items:[
+        {cn:'你属狗？↗',py:'nǐ shǔ gǒu?',th:'Are you born in the year of the Dog?'},
+      ],note:'就 = emphasis "right here/exactly" · 是吗？= "really?"'
+    },
+  ];
+  const gc=document.getElementById('sum-grammar');
+  grams.forEach(g=>{
+    const d=document.createElement('div');
+    d.className='grammar-sum-card';
+    let exHtml=g.items.map(i=>'<div class="gsm-ex">'+i.cn+'</div><div class="gsm-th">'+i.py+' — '+i.th+'</div>').join('');
+    d.innerHTML='<div class="gsm-title">'+g.title+' <span class="gsm-tag">'+g.tag+'</span></div>'+
+      '<div class="gsm-rule">'+g.rule+'</div>'+exHtml+
+      '<div style="font-size:11px;color:var(--text3);margin-top:6px;padding:6px 10px;background:rgba(201,168,76,.08);border-radius:6px">'+g.note+'</div>';
+    gc.appendChild(d);
+  });
+})();
+</script>
 </body>
 </html>
